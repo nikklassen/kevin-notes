@@ -1,0 +1,23 @@
+a)
+std::list<Card> cards;
+
+bool compareCards(const Card left, const Card right) {
+    return left.rank() < right.rank();
+}
+std::sort(cards.begin(), cards.end(), compareCards)
+
+
+b)
+const Table& table;
+std::list<Card> hand;
+
+std::find_if(hand.begin(), hand.end(), std::bind1st(std::fun_ptr(&isLegal), table));
+
+
+c)
+std::list<Player> players;
+
+void incScoreWrapper(Player a){
+	a.incScore();
+}
+for_each(players.begin(), players.end(), incScoreWrapper());

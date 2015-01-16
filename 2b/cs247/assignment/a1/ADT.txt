@@ -1,0 +1,114 @@
+// ----------------------------
+// PART A
+// ----------------------------
+enum credit {
+    WF,
+    WD,
+    NCR,
+    CR
+};
+
+
+class CourseMark {
+    int _mark;
+public:
+    // store a non-numerical mark
+    explicit CourseMark(const credit mark);
+    // store a numerical mark, throw exception if not in range (0, 100)
+    explicit CourseMark(const int mark);
+
+    /* returns one of the following, based on the _mark
+     *
+     * CR:    "Credit granted"
+     * NCR:   "No credit granted, failure recorded"
+     * WD:    "Withdrew, no credit granted"
+     * WF:    "Withdrew/failure, no credit granted"
+     * 0-100: "0%" - "100%"
+     */
+    const std::string getGrade() const;
+    /* returns one of the following, based on the _mark
+     *
+     * CR:    100
+     * NCR:   0
+     * WD:    0
+     * WF:    32
+     * 0-100: 0 - 100
+     */
+    const int getValue() const;
+};
+
+// overloaded stream output operator
+std::ostream& operator<<(std::ostream& out, const CourseMark& cm);
+// overloaded mark comparison operators for equality
+bool operator==(const CourseMark& lhs, const CourseMark& rhs);
+bool operator!=(const CourseMark& lhs, const CourseMark& rhs);
+// overloaded mark comparison operators for value comparison
+// throws an exception when comparing numerical and non-numerical grades
+bool operator>(const CourseMark& lhs, const CourseMark& rhs);
+bool operator>=(const CourseMark& lhs, const CourseMark& rhs);
+bool operator<=(const CourseMark& lhs, const CourseMark& rhs);
+bool operator<(const CourseMark& lhs, const CourseMark& rhs);
+
+
+// ----------------------------
+// PART B
+// ----------------------------
+// CourseMark::CourseMark(const credit mark);
+//     A student has completed a pass / fail course and their mark is being recorded:
+//     CourseMark& studentMark = new CourseMark(CR);
+//
+// CourseMark::CourseMark(const int mark);
+//     A student has completed a numerically-graded course and their mark is being recorded:
+//     CourseMark& studentMark = new CourseMark(100);
+//
+// const std::string CourseMark::getGrade() const;
+//     The student is requesting a copy of their transcript for a course:
+//     std::cout << studentMark.getGrade() << std::endl;
+//
+// const int CourseMark::getValue() const;
+//     The professor would like to determine the course average by summing each student's mark values.
+//     for(int i = 0; i < numStudents; ++i) { avg += (studentMark[i].getValue() / numStudents); };
+//
+// std::ostream& operator<<(std::ostream& out, const CourseMark& cm);
+//     The student's course marks are being output onto their university transcript. This is a convenience function for the above:
+//     std::cout << studentMark << std::endl;
+//
+// bool operator==(const CourseMark& lhs, const CourseMark& rhs);
+//     The student would like to see whether he received the same mark as his friend:
+//     if(studentMark == friendMark) { };
+//
+// bool operator!=(const CourseMark& lhs, const CourseMark& rhs);
+//     The student would like to see whether his mark was different than his friend's
+//     if(studentMark != friendMark) { };
+//
+// bool operator>(const CourseMark& lhs, const CourseMark& rhs);
+//     The student would like to see whether he did better than his friend
+//     if(studentMark > friendMark) { };
+//
+// bool operator>=(const CourseMark& lhs, const CourseMark& rhs);
+//     The student would like to see whether he did at least as well as his friend
+//     if(studentMark >= friendMark) { };
+//
+// bool operator<=(const CourseMark& lhs, const CourseMark& rhs);
+//     The student would like to see whether he did worse than his friend
+//     if(studentMark < friendMark) { };
+//
+// bool operator<(const CourseMark& lhs, const CourseMark& rhs);
+//     The student would like to see whether his friend did at least as well as him
+//     if(studentMark <= friendMark) { };
+
+
+// ----------------------------
+// PART C
+// ----------------------------
+// Since the course mark is immutable and thus can not be changed, it is illogical to assign a default and likely incorrect grade.
+
+
+// ----------------------------
+// PART D
+// ----------------------------
+// the credit enum should be a non-member function so it is accessible from the global namespace (for ease of client usage)
+// The constructors must be member functions by definition
+// getGrade() and getValue() must be member functions since they are class-specific and return based on a private data member
+// the stream operator must be a non-member function by definition
+// the comparison operators should be non-member functions since they do not mutate the LHS object nor do they require access to private data members

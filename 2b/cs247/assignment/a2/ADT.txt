@@ -1,0 +1,79 @@
+a)
+
+My UserAccount ADT is entity-based: each UserAccount is clearly a separate entity and---should we add any data members to these objects at a later date---identical date member contents should not imply the instances are the same. Each UserAccount is tied to a unique user and thus standard value-based functions such as copying do not make any sense. For these reasons, I created a global list of used IDs such that each account would have a unique ID, and ensured there was no copy constructor, assignment operator, or equality operators.
+
+My Password ADT is value-based: each Password instance is functionally equivalent to any Password instance with the same password value stored within it. Thus there was no need to ensure uniqueness or to create a copy constructor.
+
+My Userid ADT is value-based: two UserIDs could be considered equal if they contain the same string ID. Since this possibility was made impossible by the spec, there was no need to create any equality or assignment operators or a copy constructor.
+
+b)
+
+My UserAccount ADT is mutable: UserAccounts should be allowed to change over time as the user interacts with whatever system this ADT is used with. Functionality such as changing one's password should not cause a new ADT instance to be created, it should simply mutate the current instance.
+
+This decision forced me to create a password setter and a interface for activation/deactivation since we would not be able to mutate the object instance without one or both of these.
+
+The Password ADT is immutable: if the password for an account is to be changed, a new Password instance should be created.
+
+This decision forced me to ensure there were no mutators for the password string and that the password was only allowed to be set from the Password constructor.
+
+The Userid ADT is immutable: once the userid is set, there is no need to be able to change the string id. The Userid does contain a mutable boolean value (whether the account is active), but this does not make the entire ADT mutable.
+
+This decision forced me to ensure there was no way to mutate the string id stored within a Userid instance.
+
+c)
+
+UserAccount:
+
+    Default Constructor: it was important to write my own version of the default constructor since the user must be asked at the time of object creation to input a username and password. Since this class does not and should not have default values, creating a instance without asking these questions should be impossible.
+
+    Copy constructor: it was important to prohibit the copy constructor since it makes no sense to create a copy of a UserAccount instance. Creating an ``identical'' UserAccount violates the purpose of a UserAccount: each account must have a unique username and represent a unique user.
+
+    Destructor: I used the compiler's version of the destructor since no extra functionality must be provided in the destructor. The default destructor will implicitely call the destructors for the auto_ptr date members with UserAccount: the only data members contained within this class. These auto_ptr instances may point to classes which require destructor implementations (i.e. the Userid object requires a destructor implementation), however the UserAccount class does not need to be aware of this.
+
+    Assignment: it was important to prohibit the assignment operator for the same reason as the copy constructor: it makes no sense to be allowed to assign one UserAccount instance to another as this violates the purpose and restrictions of the UserAccount class.
+
+    Equality: I user the compiler's version of the equality (and other comparison) operator(s) since these will not allow us to compare instances of the UserAccount class. This makes sense since, as outlined above for the copy constructor and assignment operator, it makes no sense to have multiple copies of the same instance. Since the ADT is entity-based, no value-based comparisons have meaning.
+
+Password:
+
+    Default Constructor: the default constructor should be prohibited since it makes no sense to create an empty password.
+
+    Copy Constructor: the compiler's copy constructor can be used since there is no restriction against having two identical passwords, which is what the compiler's constructor would do.
+
+    Destructor: the compiler's destructor can be used since the only thing which must be done on destruction (deleting the string data member containing the password) would be done by the default destructor.
+
+    Assignment: the compiler's assignment operator is useable for the same reason as for the copy constructor: it is alright to have two identical password formed by copying the Password instances' data members.
+
+    Equality: the compiler's equality operator would correctly evaluate the equality of the Password instances' data members, which is all which should be required for determining Password equality.
+
+Userid:
+
+    Default Constructor: the default constructor should be prohibited since it makes no sense to create an empty user ID.
+
+    Copy Constructor: this should be prohibited since two Userids should not be equal.
+
+    Destructor: I implemented my own destuctor because it is necessary to remove the userid from the list of all used userids upon destruction.
+
+    Assignment: the assignment operator should be prohibited since we do not want it to be possible to create two Userids with the same value.
+
+    Equality: the compiler's version of the equality operator would compare the string IDs within the Userid instances. Though this should always return false (given that two Userids may not be created with the same string ID), the compiler's version would work as expected.
+
+d)
+
+UserAccount:
+
+    authenticate: the authenticate function should be a member function since it makes use of a private data member of the UserAccount instance. We must be able to access the password contained within the instance in order to authenticate properly.
+
+    deactivate: the deactivate function should be a member function since it makes use of a private data member of the UserAccount instance. We must be able to access the userid contained within the instance in order to deactivate that ID.
+
+    reactivate: the reactivate function should be a member function since it makes use of a private data member of the UserAccount instance. We must be able to access the userid contained within the instance in order to reactivate that ID. Furthermore, we must be able to access the private set method.
+
+Password:
+
+    authenticate: the authenticate function should be a member function because it needs to access Password's private password date member.
+
+Userid:
+
+    activate: the activate function should be a member function since it makes use of a private data member of the Userid instance.
+
+    deactivate: the deactivate function should be a member function since it makes use of a private data member of the Userid instance.
