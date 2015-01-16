@@ -1,0 +1,145 @@
+4
+nickel
+dime
+quarter
+loonie
+27
+start
+5
+10
+15
+20
+25
+30
+35
+40
+45
+50
+55
+60
+65
+70
+75
+80
+85
+90
+95
+100
+105
+110
+115
+120
+125
+extra
+start
+1
+125
+108
+start nickel 5
+start dime 10
+start quarter 25
+start loonie 100
+5 nickel 10
+5 dime 15
+5 quarter 30
+5 loonie 105
+10 nickel 15
+10 dime 20
+10 quarter 35
+10 loonie 110
+15 nickel 20
+15 dime 25
+15 quarter 40
+15 loonie 115
+20 nickel 25
+20 dime 30
+20 quarter 45
+20 loonie 120
+25 nickel 30
+25 dime 35
+25 quarter 50
+25 loonie 125
+30 nickel 35
+30 dime 40
+30 quarter 55
+30 loonie extra
+35 nickel 40
+35 dime 45
+35 quarter 60
+35 loonie extra
+40 nickel 45
+40 dime 50
+40 quarter 65
+40 loonie extra
+45 nickel 50
+45 dime 55
+45 quarter 70
+45 loonie extra
+50 nickel 55
+50 dime 60
+50 quarter 75
+50 loonie extra
+55 nickel 60
+55 dime 65
+55 quarter 80
+55 loonie extra
+60 nickel 65
+60 dime 70
+60 quarter 85
+60 loonie extra
+65 nickel 70
+65 dime 75
+65 quarter 90
+65 loonie extra
+70 nickel 75
+70 dime 80
+70 quarter 95
+70 loonie extra
+75 nickel 80
+75 dime 85
+75 quarter 100
+75 loonie extra
+80 nickel 85
+80 dime 90
+80 quarter 105
+80 loonie extra
+85 nickel 90
+85 dime 95
+85 quarter 110
+85 loonie extra
+90 nickel 95
+90 dime 100
+90 quarter 115
+90 loonie extra
+95 nickel 100
+95 dime 105
+95 quarter 120
+95 loonie extra
+100 nickel 105
+100 dime 110
+100 quarter 125
+100 loonie extra
+105 nickel 110
+105 dime 115
+105 quarter extra
+105 loonie extra
+110 nickel 115
+110 dime 120
+110 quarter extra
+110 loonie extra
+115 nickel 120
+115 dime 125
+115 quarter extra
+115 loonie extra
+120 nickel 125
+120 dime extra
+120 quarter extra
+120 loonie extra
+125 nickel extra
+125 dime extra
+125 quarter extra
+125 loonie extra
+extra nickel extra
+extra dime extra
+extra quarter extra
+extra loonie extra

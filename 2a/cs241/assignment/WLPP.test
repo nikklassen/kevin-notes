@@ -1,0 +1,65 @@
+int wain(int a, int b) {
+	int c = 3;
+	int d = 4;
+	int g = 4;
+	int* e = NULL;
+	int* f = NULL;
+
+	a = *&*&*&*&*e;
+	a = *(NULL);
+	println(a);
+	*&a = 2 * c;
+	a = (((18-(4*18/c))*2%5 + (12 % 8) * 2)) + a;
+	println(a);
+
+	*new int[3] = 7;
+
+	e = &g;
+	*(e+4) = ((a - 13) * 5) + 47;
+	*e = *(e+4);
+	println(*e);
+
+	if(c <= d) {
+		println(c);
+		println(c);
+	} else {
+		println(d);
+		println(d);
+	}
+
+	if(4 < 3) {
+		println(d);
+		println(d);
+	} else {
+		println(c);
+		println(c);
+	}
+
+	while(4 < 3) {
+		println(c);
+	}
+
+	while(c < d) {
+		c = c + 1;
+	}
+
+	c = c + 4;
+	c = c - 4 * 12 + 42;
+	c = c + 19 % 2;
+	c = d;
+
+	if(c == d) {
+		println(1);
+	} else {
+		println(2);
+	}
+
+	e = &*&a;
+
+	println(*f);
+
+	f = new int[4];
+	delete[] f;
+
+	return *e + 0 - 7 * 0 / 1 % 1 - 6;
+}

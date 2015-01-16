@@ -1,0 +1,35 @@
+4
+cat
+dog
+iguana
+mouse
+5
+start
+c
+cd
+cdi
+cdim
+start
+1
+cdim
+20
+start cat c
+start dog start
+start iguana start
+start mouse start
+c cat c
+c dog cd
+c iguana c
+c mouse c
+cd cat cd
+cd dog cd
+cd iguana cdi
+cd mouse cd
+cdi cat cdi
+cdi dog cdi
+cdi iguana cdi
+cdi mouse cdim
+cdim cat cdim
+cdim dog cdim
+cdim iguana cdim
+cdim mouse cdim

@@ -1,0 +1,24 @@
+2
+0
+1
+5
+start
+zero
+mod1
+mod2
+mod0
+start
+2
+mod1
+mod2
+10
+start 0 zero
+start 1 mod1
+zero 0 zero
+zero 1 zero
+mod1 0 mod2
+mod1 1 mod0
+mod2 0 mod1
+mod2 1 mod2
+mod0 0 mod0
+mod0 1 mod1

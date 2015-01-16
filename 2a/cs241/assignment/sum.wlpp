@@ -1,0 +1,11 @@
+int wain(int* a, int b) {
+	int total = 0;
+
+	while(b > 0) {
+		total = total + *a;
+		a = a + 1;
+		b = b - 1;
+	}
+
+	return total;
+}

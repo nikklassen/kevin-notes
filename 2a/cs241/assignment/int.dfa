@@ -1,0 +1,130 @@
+11
+-
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+9
+start
+fail
+neg
+s1
+s2
+neg1
+neg12
+pos1
+pos12
+start
+6
+s1
+s2
+neg1
+neg12
+pos1
+pos12
+99
+start - neg
+start 0 s2
+start 1 pos1
+start 2 s1
+start 3 s1
+start 4 s1
+start 5 s1
+start 6 s1
+start 7 s1
+start 8 s1
+start 9 s1
+fail - fail
+fail 0 fail
+fail 1 fail
+fail 2 fail
+fail 3 fail
+fail 4 fail
+fail 5 fail
+fail 6 fail
+fail 7 fail
+fail 8 fail
+fail 9 fail
+neg - fail
+neg 0 fail
+neg 1 neg1
+neg 2 s1
+neg 3 s1
+neg 4 s1
+neg 5 s1
+neg 6 s1
+neg 7 s1
+neg 8 s1
+neg 9 s1
+s1 - fail
+s1 0 s2
+s1 1 s2
+s1 2 s2
+s1 3 s2
+s1 4 s2
+s1 5 s2
+s1 6 s2
+s1 7 s2
+s1 8 s2
+s1 9 s2
+s2 - fail
+s2 0 fail
+s2 1 fail
+s2 2 fail
+s2 3 fail
+s2 4 fail
+s2 5 fail
+s2 6 fail
+s2 7 fail
+s2 8 fail
+s2 9 fail
+neg1 - fail
+neg1 0 s1
+neg1 1 s1
+neg1 2 neg12
+neg1 3 s2
+neg1 4 s2
+neg1 5 s2
+neg1 6 s2
+neg1 7 s2
+neg1 8 s2
+neg1 9 s2
+neg12 - fail
+neg12 0 s2
+neg12 1 s2
+neg12 2 s2
+neg12 3 s2
+neg12 4 s2
+neg12 5 s2
+neg12 6 s2
+neg12 7 s2
+neg12 8 s2
+neg12 9 fail
+pos1 - fail
+pos1 0 s1
+pos1 1 s1
+pos1 2 pos12
+pos1 3 s2
+pos1 4 s2
+pos1 5 s2
+pos1 6 s2
+pos1 7 s2
+pos1 8 s2
+pos1 9 s2
+pos12 - fail
+pos12 0 s2
+pos12 1 s2
+pos12 2 s2
+pos12 3 s2
+pos12 4 s2
+pos12 5 s2
+pos12 6 s2
+pos12 7 s2
+pos12 8 fail
+pos12 9 fail
