@@ -1,4 +1,4 @@
-all: math117.pdf
+all: Report.pdf
 
 
 .SUFFIXES:
