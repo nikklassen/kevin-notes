@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>UTrack!</title>
+    <link rel="stylesheet" href="css/ext/bootstrap.css"/>
+    <link rel="stylesheet" href="css/utrack.css"/>
+</head>
+<body>
+
+<div id="app_container" class="container">
+
+    <h1>UTrack!</h1>
+    Track and analyze data that matters to you!
+
+    <div id="input_div">
+        <!-- Put HTML here to support user input of data -->
+    </div>
+
+    <div id="analysis_div">
+        <!-- Put HTML here to support users in analyzing their data -->
+
+        <div>
+            <canvas id="canvas_demo">
+                If you don't have an HTML5-compatible browser, you'll see this text.
+
+                This canvas object can be removed after you understand canvas basics.
+            </canvas>
+        </div>
+        <button id="run_canvas_demo_button" class="btn btn-primary">Run Canvas Demo</button>
+    </div>
+
+    <div id="unit_tests">
+        <!-- Keep this here so TAs can run your unit tests -->
+        <a href="unit_tests.html">Run Unit Tests</a>
+    </div>
+
+</div>
+
+<script src="js/ext/underscore.js"></script>
+<script src="js/model.js"></script>
+<script src="js/view.js"></script>
+<script src="js/utrack.js"></script>
+</body>
+</html>
