@@ -1,1 +1,3 @@
-/* Put any additional CSS here */
+#graph_div canvas {
+  height: 100%;
+  width: 100%; }

@@ -1,45 +1,123 @@
 <!DOCTYPE html>
 <html>
-<head lang="en">
+  <head lang="en">
     <meta charset="UTF-8">
-    <title>UTrack!</title>
+
+    <title>UTrack</title>
     <link rel="stylesheet" href="css/ext/bootstrap.css"/>
     <link rel="stylesheet" href="css/utrack.css"/>
-</head>
-<body>
+  </head>
+  <body>
 
-<div id="app_container" class="container">
-
-    <h1>UTrack!</h1>
-    Track and analyze data that matters to you!
-
-    <div id="input_div">
-        <!-- Put HTML here to support user input of data -->
-    </div>
-
-    <div id="analysis_div">
-        <!-- Put HTML here to support users in analyzing their data -->
-
-        <div>
-            <canvas id="canvas_demo">
-                If you don't have an HTML5-compatible browser, you'll see this text.
-
-                This canvas object can be removed after you understand canvas basics.
-            </canvas>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">UTrack</a>
         </div>
-        <button id="run_canvas_demo_button" class="btn btn-primary">Run Canvas Demo</button>
+
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav navbar-left">
+            <li id="input" class="active"><a href="#">Input</a></li>
+            <li id="analysis"><a href="#">Analysis</a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li id=""><a href="unit_tests.html">Run Unit Tests</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div id="app_container" class="container">
+      <div id="input_div" class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <form action="javascript:void(0);" name="activity_form">
+            <h1>Add an Activity</h1>
+
+            <div class="form-group">
+              <label for="activity">Activity</label>
+              <select class="form-control" name="activity">
+                <option value="Coding" selected>Coding</option>
+                <option value="Eating">Eating</option>
+                <option value="Sleeping">Sleeping</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="energy">Energy Level</label>
+              <input type="range" id="energy" min="1" max="5" value="3">(1 = exhausted, 5 = very awake)
+            </div>
+            <div class="form-group">
+              <label for="stress">Stress Level</label>
+              <input type="range" id="stress" min="1" max="5" value="3"> (1 = very stressed, 5 = very relaxed)
+            </div>
+            <div class="form-group">
+              <label for="happiness">Happiness Level</label>
+              <input type="range" id="happiness" min="1" max="5" value="3"> (1 = depressed, 5 = very happy)
+            </div>
+
+            <div class="form-group">
+              <label for="time_spent">Time Spent</label>
+              <input type="number" id="time_spent" value="30"> minutes
+            </div>
+
+            <div class="form-group">
+              Last Data Entry was: <span id="last_entry">sometime</span>
+            </div>
+
+            <div class="form-group">
+              <button id="submit" type="reset" class="btn btn-primary">Submit</button>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-2"></div>
+      </div>
+
+      <div id="analysis_div" class="row" style="display:none;">
+        <div class="col-md-4">
+          <h3>Type of Analysis</h3>
+
+          <div class="radio">
+            <label for="analysis_table">
+              <input type="radio" name="analysis_type" id="table" value="table" checked>
+              Table
+            </label>
+          </div>
+          <div class="radio">
+            <label for="analysis_scatter">
+              <input type="radio" name="analysis_type" id="scatter" value="scatter">
+              Scatter Plot
+            </label>
+          </div>
+        </div>
+
+        <div class="col-md-8">
+          <h3>Data</h3>
+
+          <div id="graph_div" style="display:none;">
+            <canvas id="graph"></canvas>
+          </div>
+
+          <div id="table_div">
+            <table class='table' id="table_ref">
+              <thead>
+                <tr>
+                  <th>Activities</th>
+                  <th>Time Spent</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div id="unit_tests">
-        <!-- Keep this here so TAs can run your unit tests -->
-        <a href="unit_tests.html">Run Unit Tests</a>
-    </div>
-
-</div>
-
-<script src="js/ext/underscore.js"></script>
-<script src="js/model.js"></script>
-<script src="js/view.js"></script>
-<script src="js/utrack.js"></script>
-</body>
+    <script src="js/ext/underscore.js"></script>
+    <script src="js/model.js"></script>
+    <script src="js/controller.js"></script>
+    <script src="js/view.js"></script>
+  </body>
 </html>

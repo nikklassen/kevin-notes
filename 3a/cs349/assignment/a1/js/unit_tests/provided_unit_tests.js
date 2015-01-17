@@ -87,12 +87,56 @@ describe('First unit test', function() {
         graphModel.selectGraph("MyGraph");
 
         expect(firstListener.called, 'GraphModel listener should be called').to.be.ok;
-        expect(firstListener.calledWith('MyGraph'), 'GraphModel argument verification').to.be.true;
+        expect(firstListener.args[0][2], 'GraphModel argument verification').to.equal('MyGraph');
 
         var secondListener = sinon.spy();
         graphModel.addListener(secondListener);
+        graphModel.selectGraph("MyGraph");
+
         expect(firstListener.callCount, 'GraphModel first listener should have been called twice').to.equal(2);
         expect(secondListener.called, "GraphModel second listener should have been called").to.be.ok;
+    });
+
+    it('Selects a graph and stores its name', function() {
+        var graphModel = new GraphModel();
+
+        graphModel.selectGraph('MyGraph');
+        expect(graphModel.getNameOfCurrentlySelectedGraph(), 'GraphModel did not store selected graph name').to.equal('MyGraph');
+    });
+
+    it('Handles graph names', function() {
+        var graphModel = new GraphModel();
+
+        expect(JSON.stringify(graphModel.getAvailableGraphNames()), 'GraphModel names are not set properly').to.equal(JSON.stringify(['scatter', 'table']));
+    });
+
+    it('Adds and removes listeners', function() {
+        var graphModel = new GraphModel();
+        var firstListener = sinon.spy();
+        var secondListener = sinon.spy();
+        var thirdListener = sinon.spy();
+
+        graphModel.addListener(firstListener);
+        graphModel.addListener(secondListener);
+        expect(graphModel.removeListener(thirdListener), 'GraphModel removed non-existent listener').to.equal(-1);
+
+        graphModel.addListener(thirdListener);
+        expect(graphModel.listeners.length, 'GraphModel did not add three objects').to.equal(3);
+
+        graphModel.removeListener(thirdListener);
+        graphModel.removeListener(firstListener);
+        graphModel.removeListener(secondListener);
+        expect(graphModel.listeners.length, 'GrapModel did not remove all objects').to.equal(0);
+    });
+
+    it('Updates activity data point listeners', function() {
+        expect('this', 'FIXME').to.equal('that');
+    });
+
+    it('Does not update listeners if the data point does not exist', function() {
+        var graphModel = new GraphModel();
+
+        expect('this', 'FIXME').to.equals('that');
     });
 
 });
