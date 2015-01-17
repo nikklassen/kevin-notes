@@ -130,13 +130,25 @@ describe('First unit test', function() {
     });
 
     it('Updates activity data point listeners', function() {
-        expect('this', 'FIXME').to.equal('that');
+        var activityStoreModel = new ActivityStoreModel();
+        var listener = sinon.spy();
+
+        activityStoreModel.addListener(listener);
+        activityStoreModel.addActivityDataPoint('point');
+
+        expect(listener.called, 'ActivityStoreModel listener should be called').to.be.ok;
+        expect(listener.args[0][0], 'ActivityStoreModel argument 0 verification').to.equal(ACTIVITY_DATA_ADDED_EVENT);
+        expect(listener.args[0][2], 'ActivityStoreModel argument 2 verification').to.equal('point');
     });
 
     it('Does not update listeners if the data point does not exist', function() {
-        var graphModel = new GraphModel();
+        var activityStoreModel = new ActivityStoreModel();
+        var listener = sinon.spy();
 
-        expect('this', 'FIXME').to.equals('that');
+        activityStoreModel.addListener(listener);
+        activityStoreModel.removeActivityDataPoint('point');
+
+        expect(listener.called, 'ActivityStoreModel listener should not be called').to.be.not.ok;
     });
 
 });

@@ -38,7 +38,7 @@ _.extend(ActivityStoreModel.prototype, {
 
     removeActivityDataPoint: function(activityDataPoint) {
         if (this.activityDataPoints.indexOf(activityDataPoint) === -1) { return -1; }
-        this.activityDataPoints = filter(self.activityDataPoints, function(obj) {
+        this.activityDataPoints = _.filter(self.activityDataPoints, function(obj) {
             return !_.isEqual(obj, activityDataPoint);
         });
         _.each(this.listeners, function(obj) {

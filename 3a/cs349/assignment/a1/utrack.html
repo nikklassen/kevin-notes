@@ -63,7 +63,7 @@
             </div>
 
             <div class="form-group">
-              Last Data Entry was: <span id="last_entry">sometime</span>
+              Last Data Entry was: <span id="last_entry">never</span>
             </div>
 
             <div class="form-group">
@@ -74,21 +74,29 @@
         <div class="col-md-2"></div>
       </div>
 
-      <div id="analysis_div" class="row" style="display:none;">
+      <div id="analysis_div" style="display:none;">
         <div class="col-md-4">
-          <h3>Type of Analysis</h3>
+          <div class="row">
+            <h3>Type of Analysis</h3>
 
-          <div class="radio">
-            <label for="analysis_table">
-              <input type="radio" name="analysis_type" id="table" value="table" checked>
-              Table
-            </label>
+            <div class="radio">
+              <label for="analysis_table">
+                <input type="radio" name="analysis_type" id="table" value="table" checked>
+                Table
+              </label>
+            </div>
+            <div class="radio">
+              <label for="analysis_scatter">
+                <input type="radio" name="analysis_type" id="scatter" value="scatter">
+                Scatter Plot
+              </label>
+            </div>
           </div>
-          <div class="radio">
-            <label for="analysis_scatter">
-              <input type="radio" name="analysis_type" id="scatter" value="scatter">
-              Scatter Plot
-            </label>
+
+          <div class="row" id="key_div" style="display:none;">
+            <h3>Key</h3>
+
+            <canvas id="key"></canvas>
           </div>
         </div>
 
@@ -100,11 +108,12 @@
           </div>
 
           <div id="table_div">
-            <table class='table' id="table_ref">
+            <table class="table" id="table_ref">
               <thead>
                 <tr>
                   <th>Activities</th>
                   <th>Time Spent</th>
+                  <th>Remove?</th>
                 </tr>
               </thead>
               <tbody>
