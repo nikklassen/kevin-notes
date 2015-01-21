@@ -2,7 +2,6 @@
 
 var expect = chai.expect;
 describe('First unit test', function() {
-
     it('Some tests', function() {
         /*
          We're using Mocha and Chai to do unit testing.
@@ -96,7 +95,9 @@ describe('First unit test', function() {
         expect(firstListener.callCount, 'GraphModel first listener should have been called twice').to.equal(2);
         expect(secondListener.called, "GraphModel second listener should have been called").to.be.ok;
     });
+});
 
+describe('Graph Model Unit Tests', function() {
     it('Selects a graph and stores its name', function() {
         var graphModel = new GraphModel();
 
@@ -128,7 +129,9 @@ describe('First unit test', function() {
         graphModel.removeListener(secondListener);
         expect(graphModel.listeners.length, 'GrapModel did not remove all objects').to.equal(0);
     });
+});
 
+describe('Activity Store Model Unit Tests', function() {
     it('Updates activity data point listeners', function() {
         var activityStoreModel = new ActivityStoreModel();
         var listener = sinon.spy();
@@ -150,5 +153,4 @@ describe('First unit test', function() {
 
         expect(listener.called, 'ActivityStoreModel listener should not be called').to.be.not.ok;
     });
-
 });
