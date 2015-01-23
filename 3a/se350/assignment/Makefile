@@ -1,6 +1,6 @@
 all:
-	make -C os
+#	make -C os
 
 
 clean:
-	make -C os clean
+#	make -C os clean
