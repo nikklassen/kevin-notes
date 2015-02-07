@@ -4,7 +4,6 @@
  * A function that creates and returns all of the model classes and constants.
   */
 function createViewModule() {
-
     var LIST_VIEW = 'LIST_VIEW';
     var GRID_VIEW = 'GRID_VIEW';
     var RATING_CHANGE = 'RATING_CHANGE';
@@ -12,25 +11,36 @@ function createViewModule() {
     /**
      * An object representing a DOM element that will render the given ImageModel object.
      */
-    var ImageRenderer = function(imageModel) {
-        // TODO
+    var ImageRenderer = function(imageModel, viewType) {
+        this.imageModel = imageModel;
+        this.viewType = viewType;
     };
 
     _.extend(ImageRenderer.prototype, {
-
         /**
          * Returns an element representing the ImageModel, which can be attached to the DOM
          * to display the ImageModel.
          */
         getElement: function() {
-            // TODO
+            var templateDiv = document.createElement('div');
+
+            var template = document.getElementById('img-template').content.cloneNode(true);
+            template.querySelector('img').src = this.imageModel.getPath();
+            template.querySelector('#img-caption').innerText = this.imageModel.getCaption();
+
+            var date = this.imageModel.getModificationDate();
+            template.querySelector('#img-date').innerText = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay();
+            template.querySelector('#img-rating').innerText = this.imageModel.getRating();
+
+            templateDiv.appendChild(template);
+            return templateDiv;
         },
 
         /**
          * Returns the ImageModel represented by this ImageRenderer.
          */
         getImageModel: function() {
-            // TODO
+            return this.imageModel;
         },
 
         /**
@@ -38,15 +48,8 @@ function createViewModule() {
          * contents as necessary.
          */
         setImageModel: function(imageModel) {
-            // TODO
-        },
-
-        /**
-         * Changes the rendering of the ImageModel to either list or grid view.
-         * @param viewType A string, either LIST_VIEW or GRID_VIEW
-         */
-        setToView: function(viewType) {
-
+            this.imageModel = imageModel;
+            return this;
         },
 
         /**
@@ -54,7 +57,16 @@ function createViewModule() {
          * currently rendering.
          */
         getCurrentView: function() {
+            return this.viewType;
+        },
 
+        /**
+         * Changes the rendering of the ImageModel to either list or grid view.
+         * @param viewType A string, either LIST_VIEW or GRID_VIEW
+         */
+        setToView: function(viewType) {
+            this.viewType = viewType;
+            return this;
         }
     });
 
@@ -63,15 +75,15 @@ function createViewModule() {
      * objects that fulfill the ImageRenderer class's contract defined above.
      */
     var ImageRendererFactory = function() {
+        this.imageRenderer = ImageRenderer;
     };
 
     _.extend(ImageRendererFactory.prototype, {
-
         /**
          * Creates a new ImageRenderer object for the given ImageModel
          */
-        createImageRenderer: function(imageModel) {
-            // TODO
+        createImageRenderer: function(imageModel, viewType) {
+            return new this.imageRenderer(imageModel, viewType);
         }
     });
 
@@ -81,7 +93,11 @@ function createViewModule() {
      * assume there is only one ImageCollectionView that will ever be created).
      */
     var ImageCollectionView = function() {
-        // TODO
+        this.imageRendererFactory = new ImageRendererFactory;
+        this.imageCollectionModel = null;
+        this.viewType = null;
+
+        this.renders = [];
     };
 
     _.extend(ImageCollectionView.prototype, {
@@ -90,14 +106,36 @@ function createViewModule() {
          * this object represents.
          */
         getElement: function() {
-            // TODO
+            var _this = this;
+
+            var imageCollection = document.createElement('div');
+            _.each(this.renders, function(imageRender) {
+                imageCollection.appendChild(imageRender.getElement());
+            });
+            return imageCollection;
+        },
+
+        /**
+         * Re-renders all current imageModels
+         */
+        render: function() {
+            if (this.imageRendererFactory === null || this.imageCollectionModel === null || this.viewType === null) {
+                return -1;
+            }
+
+            var _this = this;
+
+            this.renders = [];
+            _.each(_this.imageCollectionModel.getImageModels(), function(imageModel) {
+                _this.renders.push(_this.imageRendererFactory.createImageRenderer(imageModel, _this.viewType));
+            });
         },
 
         /**
          * Gets the current ImageRendererFactory being used to create new ImageRenderer objects.
          */
         getImageRendererFactory: function() {
-            // TODO
+            return this.imageRendererFactory;
         },
 
         /**
@@ -106,14 +144,17 @@ function createViewModule() {
          * ImageRenderer objects with new ImageRenderer objects produced by the factory.
          */
         setImageRendererFactory: function(imageRendererFactory) {
-            // TODO
+            this.imageRendererFactory = imageRendererFactory;
+
+            this.render();
+            return this;
         },
 
         /**
          * Returns the ImageCollectionModel represented by this view.
          */
         getImageCollectionModel: function() {
-            // TODO
+            return this.imageCollectionModel;
         },
 
         /**
@@ -122,15 +163,20 @@ function createViewModule() {
          * any changes to the given model.
          */
         setImageCollectionModel: function(imageCollectionModel) {
-            // TODO
-        },
+            var _this = this;
 
-        /**
-         * Changes the presentation of the images to either grid view or list view.
-         * @param viewType A string of either LIST_VIEW or GRID_VIEW.
-         */
-        setToView: function(viewType) {
-            // TODO
+            if (this.imageCollectionModel !== null) {
+                this.imageCollectionModel.removeListener(function(eventType, imageCollectionModel, imageModel, eventTime) {
+                    _this.render();
+                });
+            }
+            this.imageCollectionModel = imageCollectionModel;
+            this.imageCollectionModel.addListener(function(eventType, imageCollectionModel, imageModel, eventTime) {
+                _this.render();
+            });
+
+            this.render();
+            return this;
         },
 
         /**
@@ -138,7 +184,18 @@ function createViewModule() {
          * being rendered.
          */
         getCurrentView: function() {
-            // TODO
+            return this.viewType;
+        },
+
+        /**
+         * Changes the presentation of the images to either grid view or list view.
+         * @param viewType A string of either LIST_VIEW or GRID_VIEW.
+         */
+        setToView: function(viewType) {
+            this.viewType = viewType;
+
+            this.render();
+            return this;
         }
     });
 
@@ -146,7 +203,7 @@ function createViewModule() {
      * An object representing a DOM element that will render the toolbar to the screen.
      */
     var Toolbar = function() {
-
+        // TODO
     };
 
     _.extend(Toolbar.prototype, {
@@ -183,7 +240,7 @@ function createViewModule() {
          * @param viewType A string of either LIST_VIEW or GRID_VIEW representing the desired view.
          */
         setToView: function(viewType) {
-
+            // TODO
         },
 
         /**
@@ -191,7 +248,7 @@ function createViewModule() {
          * either LIST_VIEW or GRID_VIEW.
          */
         getCurrentView: function() {
-
+            // TODO
         },
 
         /**
@@ -199,7 +256,7 @@ function createViewModule() {
          * filtering should take place.
          */
         getCurrentRatingFilter: function() {
-
+            // TODO
         },
 
         /**
@@ -269,6 +326,7 @@ function createViewModule() {
             if (!_.isFunction(listener_fn)) {
                 throw new Error("Invalid arguments to FileChooser.removeListener: " + JSON.stringify(arguments));
             }
+
             this.listeners = _.without(this.listeners, listener_fn);
         }
     });

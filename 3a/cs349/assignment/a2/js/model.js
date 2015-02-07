@@ -4,10 +4,10 @@
  * A function that creates and returns all of the model classes and constants.
  */
 function createModelModule() {
-
     var IMAGE_ADDED_TO_COLLECTION_EVENT = 'IMAGE_ADDED_TO_COLLECTION_EVENT';
     var IMAGE_REMOVED_FROM_COLLECTION_EVENT = 'IMAGE_REMOVED_FROM_COLLECTION_EVENT';
     var IMAGE_META_DATA_CHANGED_EVENT = 'IMAGE_META_DATA_CHANGED_EVENT';
+
     /**
      * An ImageModel represents a reference to an image on the local file system. You should assume
      * that all images are within the ./images directory.
@@ -18,45 +18,43 @@ function createModelModule() {
      *               A rating of 0 indicates that the user has not yet supplied a rating for the image.
      * @constructor
      */
-    var ImageModel = function(
-        pathToFile,
-        modificationDate,
-        caption,
-        rating
-    ) {
-        if (!(
-                _.isString(pathToFile)
-                && _.isString(caption)
-                && (modificationDate instanceof Date)
-                && (_.isNumber(rating) && rating >= 0 && rating <= 5)
-            ))
-        {
-            throw new Error("Invalid arguments supplied to ImageModel: " + JSON.stringify(arguments));
+    var ImageModel = function(pathToFile, modificationDate, caption, rating) {
+        if (!_.isString(pathToFile)) {
+            throw new Error("Invalid arguments supplied to ImageModel: pathToFile was not a sting. Arguments: " + JSON.stringify(arguments));
         }
         this.path = pathToFile;
+
+        if (!(modificationDate instanceof Date)) {
+            throw new Error("Invalid arguments supplied to ImageModel: modificationDate was not a date. Arguments: " + JSON.stringify(arguments));
+        }
         this.modificationDate = modificationDate;
-        this.caption = caption;
-        this.rating = rating;
+
+        this.setRating(rating);
+        this.setCaption(caption);
+
+        this.listeners = [];
     };
 
     _.extend(ImageModel.prototype, {
-
         /**
          * Adds a listener to be notified of when the model changes.
-         * @param listener_fn A function with the signature: (imageModel, eventTime),
+         * @param listener A function with the signature: (imageModel, eventTime),
          * where imageModel is a reference to this object, and eventTime is a Date
          * object indicating the time of the event.
          */
-        addListener: function(listener_fn) {
-            // TODO
+        addListener: function(listener) {
+            this.listeners.push(listener);
+            return this;
         },
 
         /**
          * Removes the given listener from this object.
-         * @param listener_fn
+         * @param listener
          */
-        removeListener: function(listener_fn) {
-            // TODO
+        removeListener: function(listener) {
+            if (this.listeners.indexOf(listener) === -1) { return -1; }
+            this.listeners = _.filter(this.listeners, function(obj) { return obj != listener; });
+            return listener;
         },
 
         /**
@@ -72,7 +70,16 @@ function createModelModule() {
          * @param caption A string representing a user caption.
          */
         setCaption: function(caption) {
-            // TODO
+            if (!_.isString(caption)) {
+                throw new Error("Invalid arguments supplied to setCaption. Arguments: " + JSON.stringify(caption));
+            }
+
+            this.caption = caption;
+
+            _.each(this.listeners, function(obj) {
+                obj(this, (new Date()).getTime());
+            });
+            return this;
         },
 
         /**
@@ -88,7 +95,16 @@ function createModelModule() {
          * @param rating An integer in the range [0,5] (where a 0 indicates the user is clearing their rating)
          */
         setRating: function(rating) {
-            // TODO
+            if (!_.isNumber(rating) || rating < 0 || 5 < rating) {
+                throw new Error("Invalid arguments supplied to setRating. Arguments: " + JSON.stringify(rating));
+            }
+
+            this.rating = rating;
+
+            _.each(this.listeners, function(obj) {
+                obj(this, (new Date()).getTime());
+            });
+            return this;
         },
 
         /**
@@ -111,32 +127,44 @@ function createModelModule() {
      */
     var ImageCollectionModel = function() {
         this.imageModels = [];
+        this.listeners = [];
     };
 
     _.extend(ImageCollectionModel.prototype, {
-
         /**
          * Adds a listener to the collection to be notified of when the collection or an image
          * in the collection changes.
-         * @param listener_fn A function with the signature (eventType, imageModelCollection, imageModel, eventDate),
-         *                    where eventType is a string of either
-         *                    - IMAGE_ADDED_TO_COLLECTION_EVENT,
-         *                    - IMAGE_REMOVED_FROM_COLLECTION_EVENT, or
-         *                    - IMAGE_META_DATA_CHANGED_EVENT.
-         *                    imageModelCollection is a reference to this object, imageModel is the imageModel
-         *                    that was added, removed, or changed, and eventDate is a Date object representing the
-         *                    time when the change occurred.
+         * @param listener A function with the signature (eventType, imageModelCollection, imageModel, eventDate),
+         *                 where eventType is a string of either
+         *                 - IMAGE_ADDED_TO_COLLECTION_EVENT,
+         *                 - IMAGE_REMOVED_FROM_COLLECTION_EVENT, or
+         *                 - IMAGE_META_DATA_CHANGED_EVENT.
+         *                 imageModelCollection is a reference to this object, imageModel is the imageModel
+         *                 that was added, removed, or changed, and eventDate is a Date object representing the
+         *                 time when the change occurred.
          */
-        addListener: function(listener_fn) {
-            // TODO
+        addListener: function(listener) {
+            this.listeners.push(listener);
+            return this;
         },
 
         /**
          * Removes the given listener from the object.
-         * @param listener_fn
+         * @param listener
          */
-        removeListener: function(listener_fn) {
-            // TODO
+        removeListener: function(listener) {
+            if (this.listeners.indexOf(listener) === -1) { return -1; }
+            this.listeners = _.filter(this.listeners, function(obj) { return obj != listener; });
+            return listener;
+        },
+
+        /**
+         * Prototype for an ImageModel listener.
+         */
+        imageModelListener: function(imageModel, eventTime) {
+            _.each(this.listeners, function(obj) {
+                obj(IMAGE_META_DATA_CHANGED_EVENT, this, imageModel, eventTime);
+            });
         },
 
         /**
@@ -147,7 +175,13 @@ function createModelModule() {
          */
         addImageModel: function(imageModel) {
             this.imageModels.push(imageModel);
-            // TODO: See contract above
+
+            imageModel.addListener(this.imageModelListener);
+
+            _.each(this.listeners, function(obj) {
+                obj(IMAGE_ADDED_TO_COLLECTION_EVENT, this, imageModel, (new Date()).getTime());
+            });
+            return this;
         },
 
         /**
@@ -156,7 +190,19 @@ function createModelModule() {
          * @param imageModel
          */
         removeImageModel: function(imageModel) {
-            // TODO
+            if (this.imageModels.indexOf(imageModel) === -1) { return -1; }
+
+            _.each(this.imageModels, function(obj) {
+                if (obj == imageModel) {
+                    obj.removeListener(this.imageModelListener);
+                }
+            });
+            this.imageModels = _.filter(this.imageModels, function(obj) { return obj != imageModel; });
+
+            _.each(this.listeners, function(obj) {
+                obj(IMAGE_REMOVED_FROM_COLLECTION_EVENT, this, imageModel, (new Date()).getTime());
+            });
+            return imageModel;
         },
 
         /**

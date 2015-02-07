@@ -4,10 +4,6 @@
     <meta charset="UTF-8">
     <title>Fotag!</title>
 
-    <!--
-    All of your CSS must go in css/fotag.css. Do not add styles to individual elements.
-    All of your CSS must be your own -- you may not use third-party CSS, like Bootstrap.
-    -->
     <link rel="stylesheet" href="css/fotag.css"/>
     <style>
         .marking-button {
@@ -20,33 +16,37 @@
 </head>
 <body>
 
-<!-- This header can be replaced -->
+<!-- Header -->
 <h1>Fotag!</h1>
 Import, organize, and rate your photos!
 
+<!-- AppContainer -->
 <div id="app-container">
-    <!--
-         An attachment point to place all of your dynamically created content. Do not remove or
-         rename this div.
-    -->
 </div>
 
-<!-- A template for a file chooser, to select multiple files. See FileChooser in view.js. -->
+<!-- TEMPLATES -->
 <template id="file-chooser">
     <input type="file" class="files-input" name="file_results[]" multiple />
     <output id="list"></output>
 </template>
 
-<!-- Keep this here so TAs can run your unit tests -->
-<div id="unit-tests">
+<template id="img-template">
+    <img />
+    <div id="img-caption"></div>
+    <div id="img-date"></div>
+    <div id="img-rating"></div>
+</template>
 
-    <!-- This button is for marking purposes to test your architecture. Do not remove it-->
+
+<!-- Testing -->
+<div id="unit-tests">
     <button class="marking-button">Mark Me!</button>
     <div class="marking-div-clear"></div>
 
     <a href="unit_tests.html">Run Unit Tests</a>
 </div>
 
+<!-- JS -->
 <script src="js/ext/underscore.js"></script>
 <script src="js/model.js"></script>
 <script src="js/view.js"></script>
