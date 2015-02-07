@@ -1,0 +1,113 @@
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    height: 50px;
+    width: 100%;
+
+    border-bottom: 1px #e2e2e2 solid;
+
+    background-color: #eee;
+
+    z-index: 2;
+
+    div {
+        height: 50px;
+        display:inline-block;
+        padding: 0 16px;
+    }
+
+    #app-name {
+        font: 24px/50px sans-serif;
+    }
+
+    #view-buttons {
+        position: absolute;
+        top:0px;
+        font: 18px/50px sans-serif;
+
+        .selected {
+            background-color: #ddd;
+        }
+    }
+
+    #rating-header {
+        float: right;
+    }
+}
+
+#chooser-container {
+    position: fixed;
+    top: 50px;
+    left: 0;
+
+    height: 25px;
+    width: 100%;
+
+    padding: 5px;
+
+    background-color: #fff;
+
+    z-index: 1;
+}
+
+#app-container {
+    position: absolute;
+    top: 80px;
+    left: 0;
+
+    z-index: 0;
+
+    .grid-image {
+        display: inline-block;
+        padding: 10px;
+
+        font: 16px/20px serif;
+
+        img {
+            height: 200px;
+            width: 200px;
+        }
+
+        #img-caption {
+        }
+
+        #img-date {
+            float:left;
+        }
+
+        #img-rating {
+            float:right;
+        }
+    }
+
+    .list-image {
+        display: block;
+        padding: 10px;
+
+        height: 170px;
+        width: 100%;
+
+        font: 16px/48px serif;
+
+        img {
+            clear: both;
+            float: left;
+
+            height: 150px;
+            width: 150px;
+        }
+
+        #meta-container {
+            float: left;
+            margin-left:30px;
+        }
+    }
+}
+
+#unit-tests {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}

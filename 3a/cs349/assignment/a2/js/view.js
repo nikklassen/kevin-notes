@@ -208,7 +208,9 @@ function createViewModule() {
      * An object representing a DOM element that will render the toolbar to the screen.
      */
     var Toolbar = function() {
-        // TODO
+        this.viewType = GRID_VIEW;
+        this.ratingFilter = 0;
+        this.listeners = [];
     };
 
     _.extend(Toolbar.prototype, {
@@ -216,28 +218,58 @@ function createViewModule() {
          * Returns an element representing the toolbar, which can be attached to the DOM.
          */
         getElement: function() {
-            // TODO
+            var template = document.getElementById('header-template').content.cloneNode(true);
+            var gridButton = template.querySelector('#grid-button');
+            var listButton = template.querySelector('#list-button');
+
+            if (this.viewType == GRID_VIEW) {
+                gridButton.className += 'selected';
+                listButton.className -= 'selected';
+            } else if (this.viewType == LIST_VIEW) {
+                listButton.className += 'selected';
+                gridButton.className -= 'selected';
+            }
+
+            var _this = this;
+            gridButton.addEventListener('click', function() {
+                _this.setToView(GRID_VIEW);
+            });
+            listButton.addEventListener('click', function() {
+                _this.setToView(LIST_VIEW);
+            });
+
+            return template;
         },
 
         /**
          * Registers the given listener to be notified when the toolbar changes from one
          * view type to another.
-         * @param listener_fn A function with signature (toolbar, eventType, eventDate), where
-         *                    toolbar is a reference to this object, eventType is a string of
-         *                    either, LIST_VIEW, GRID_VIEW, or RATING_CHANGE representing how
-         *                    the toolbar has changed (specifically, the user has switched to
-         *                    a list view, grid view, or changed the star rating filter).
-         *                    eventDate is a Date object representing when the event occurred.
+         * @param listener A function with signature (toolbar, eventType, eventDate), where
+         *                 toolbar is a reference to this object, eventType is a string of
+         *                 either, LIST_VIEW, GRID_VIEW, or RATING_CHANGE representing how
+         *                 the toolbar has changed (specifically, the user has switched to
+         *                 a list view, grid view, or changed the star rating filter).
+         *                 eventDate is a Date object representing when the event occurred.
          */
-        addListener: function(listener_fn) {
-            // TODO
+        addListener: function(listener) {
+            this.listeners.push(listener);
+            return this;
         },
 
         /**
          * Removes the given listener from the toolbar.
          */
-        removeListener: function(listener_fn) {
-            // TODO
+        removeListener: function(listener) {
+            if (this.listeners.indexOf(listener) === -1) { return -1; }
+            this.listeners = _.filter(this.listeners, function(obj) { return obj != listener; });
+            return listener;
+        },
+        /**
+         * Returns the current view selected in the toolbar, a string that is
+         * either LIST_VIEW or GRID_VIEW.
+         */
+        getCurrentView: function() {
+            return this.viewType;
         },
 
         /**
@@ -245,23 +277,23 @@ function createViewModule() {
          * @param viewType A string of either LIST_VIEW or GRID_VIEW representing the desired view.
          */
         setToView: function(viewType) {
-            // TODO
+            this.viewType = viewType;
+
+            var _this = this;
+            _.each(this.listeners, function(obj) {
+                obj(_this, viewType, (new Date()).getTime());
+            });
+
+            return this;
         },
 
-        /**
-         * Returns the current view selected in the toolbar, a string that is
-         * either LIST_VIEW or GRID_VIEW.
-         */
-        getCurrentView: function() {
-            // TODO
-        },
 
         /**
          * Returns the current rating filter. A number in the range [0,5], where 0 indicates no
          * filtering should take place.
          */
         getCurrentRatingFilter: function() {
-            // TODO
+            return this.ratingFilter;
         },
 
         /**
@@ -269,7 +301,14 @@ function createViewModule() {
          * @param rating An integer in the range [0,5], where 0 indicates no filtering should take place.
          */
         setRatingFilter: function(rating) {
-            // TODO
+            this.ratingFilter = rating;
+
+            var _this = this;
+            _.each(this.listeners, function(obj) {
+                obj(_this, RATING_CHANGE, (new Date()).getTime());
+            });
+
+            return this;
         }
     });
 

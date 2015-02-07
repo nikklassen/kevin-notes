@@ -17,19 +17,24 @@
 <body>
 
 <!-- Header -->
-<div id="header">
-    <h1>Fotag!</h1>
-    <h4>Import, organize, and rate your photos!</h4>
-    <div id="view-buttons">
-        <div id="grid-button">Grid</div>
-        <div id="list-button">List</div>
-    </div>
-</div>
+<header id="header-container"></header>
+
+<!-- File Chooser -->
+<div id="chooser-container"></div>
 
 <!-- AppContainer -->
 <div id="app-container"></div>
 
 <!-- TEMPLATES -->
+<template id="header-template">
+    <div id="app-name">Fotag!</div>
+    <div id="view-buttons">
+        <div id="grid-button">Grid</div>
+        <div id="list-button">List</div>
+    </div>
+    <div id="rating-header">0</div>
+</template>
+
 <template id="file-chooser">
     <input type="file" class="files-input" name="file_results[]" multiple />
     <output id="list"></output>
@@ -37,9 +42,11 @@
 
 <template id="img-template">
     <img />
-    <div id="img-caption"></div>
-    <div id="img-date"></div>
-    <div id="img-rating"></div>
+    <div id="meta-container">
+        <div id="img-caption"></div>
+        <div id="img-date"></div>
+        <div id="img-rating"></div>
+    </div>
 </template>
 
 

@@ -5,30 +5,56 @@ window.addEventListener('load', function() {
     var modelModule = createModelModule();
     var viewModule = createViewModule();
 
+    var headerContainer = document.getElementById('header-container');
+    var chooserContainer = document.getElementById('chooser-container');
     var appContainer = document.getElementById('app-container');
+
+
+    // Header initialization
+    var toolbar = new viewModule.Toolbar();
+    headerContainer.appendChild(toolbar.getElement());
 
 
     // File Chooser initialization
     var fileChooser = new viewModule.FileChooser();
-    appContainer.appendChild(fileChooser.getElement());
+    chooserContainer.appendChild(fileChooser.getElement());
 
 
     // Image Collection View initialization
     var imageCollectionView = new viewModule.ImageCollectionView;
     imageCollectionView.setToView(viewModule.GRID_VIEW);
-    imageCollectionView.setImageCollectionModel(new modelModule.ImageCollectionModel);
-    // imageCollectionView.setImageCollectionModel(modelModule.loadImageCollectionModel());
-
-    var renderedView = imageCollectionView.getElement();
-    appContainer.appendChild(renderedView);
+    imageCollectionView.setImageCollectionModel(modelModule.loadImageCollectionModel());
 
 
     // Redraw Image Collection View
-    var redraw = function() {
+    var redrawImages = function() {
         appContainer.removeChild(appContainer.lastChild);
         var renderedImage = imageCollectionView.getElement();
         appContainer.appendChild(renderedImage);
     }
+
+    // redrawImages() removes the last child of appContainer
+    appContainer.appendChild(document.createElement('div'));
+    redrawImages();
+
+
+    // Header listener
+    toolbar.addListener(function(toolbar, eventType, eventDate) {
+        // TODO draw header
+        if (eventType == viewModule.GRID_VIEW) {
+            imageCollectionView.setToView(viewModule.GRID_VIEW);
+            redrawImages();
+        } else if (eventType == viewModule.LIST_VIEW) {
+            imageCollectionView.setToView(viewModule.LIST_VIEW);
+            redrawImages();
+        } else if (eventType == viewModule.RATING_CHANGE) {
+            // TODO
+        }
+        while(headerContainer.lastChild) {
+            headerContainer.removeChild(headerContainer.lastChild);
+        }
+        headerContainer.appendChild(toolbar.getElement());
+    });
 
 
     // New image listener
@@ -38,18 +64,8 @@ window.addEventListener('load', function() {
             imageCollectionView.getImageCollectionModel().addImageModel(imageModel);
         });
 
-        redraw();
+        redrawImages();
 
-        // modelModule.storeImageCollectionModel(imageCollectionModel);
-    });
-
-
-    document.getElementById('grid-button').addEventListener('click', function() {
-        imageCollectionView.setToView(viewModule.GRID_VIEW);
-        redraw();
-    });
-    document.getElementById('list-button').addEventListener('click', function() {
-        imageCollectionView.setToView(viewModule.LIST_VIEW);
-        redraw();
+        modelModule.storeImageCollectionModel(imageCollectionView.getImageCollectionModel());
     });
 });
