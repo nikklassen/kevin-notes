@@ -30,6 +30,11 @@ header {
         .selected {
             background-color: #ddd;
         }
+
+        img {
+            height: 50px;
+            width: 50px;
+        }
     }
 
     #rating-header {
@@ -107,6 +112,17 @@ header {
             float: left;
             margin-left:30px;
         }
+    }
+
+    div img {
+        -webkit-transition:height 1s ease-in-out, width 1s ease-in-out;
+    }
+
+    div img.expanded {
+        height: 300px;
+        width: 300px;
+
+        -webkit-transition:height 1s ease-in-out, width 1s ease-in-out;
     }
 }
 

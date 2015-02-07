@@ -68,4 +68,11 @@ window.addEventListener('load', function() {
 
         redrawImages();
     });
+
+    document.body.addEventListener('click', function() {
+        console.log('base');
+        if (document.querySelector('.expanded')) {
+            document.querySelector('.expanded').className = '';
+        }
+    }, true);
 });

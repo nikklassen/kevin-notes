@@ -32,7 +32,16 @@ function createViewModule() {
             }
 
             var template = document.getElementById('img-template').content.cloneNode(true);
-            template.querySelector('img').src = this.imageModel.getPath();
+            var image = template.querySelector('img');
+            image.src = this.imageModel.getPath();
+            image.addEventListener('click', function() {
+                console.log('image');
+                if (document.querySelector('.expanded')) {
+                    document.querySelector('.expanded').className = '';
+                }
+                image.className = 'expanded';
+            });
+
             template.querySelector('#img-caption').innerText = this.imageModel.getCaption();
 
             var date = this.imageModel.getModificationDate();

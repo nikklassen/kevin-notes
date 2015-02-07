@@ -19,6 +19,9 @@ header {
     font: 18px/50px sans-serif; }
     header #view-buttons .selected {
       background-color: #ddd; }
+    header #view-buttons img {
+      height: 50px;
+      width: 50px; }
   header #rating-header {
     float: right; }
     header #rating-header #rating-filter {
@@ -64,6 +67,12 @@ header {
     #app-container .list-image #meta-container {
       float: left;
       margin-left: 30px; }
+  #app-container div img {
+    -webkit-transition: height 1s ease-in-out, width 1s ease-in-out; }
+  #app-container div img.expanded {
+    height: 300px;
+    width: 300px;
+    -webkit-transition: height 1s ease-in-out, width 1s ease-in-out; }
 
 #unit-tests {
   position: fixed;
