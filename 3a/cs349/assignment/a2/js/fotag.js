@@ -31,6 +31,8 @@ window.addEventListener('load', function() {
         appContainer.removeChild(appContainer.lastChild);
         var renderedImage = imageCollectionView.getElement();
         appContainer.appendChild(renderedImage);
+
+        modelModule.storeImageCollectionModel(imageCollectionView.getImageCollectionModel());
     }
 
     // redrawImages() removes the last child of appContainer
@@ -40,7 +42,6 @@ window.addEventListener('load', function() {
 
     // Header listener
     toolbar.addListener(function(toolbar, eventType, eventDate) {
-        // TODO draw header
         if (eventType == viewModule.GRID_VIEW) {
             imageCollectionView.setToView(viewModule.GRID_VIEW);
             redrawImages();
@@ -48,7 +49,8 @@ window.addEventListener('load', function() {
             imageCollectionView.setToView(viewModule.LIST_VIEW);
             redrawImages();
         } else if (eventType == viewModule.RATING_CHANGE) {
-            // TODO
+            imageCollectionView.filter(toolbar.getCurrentRatingFilter());
+            redrawImages();
         }
         while(headerContainer.lastChild) {
             headerContainer.removeChild(headerContainer.lastChild);
@@ -65,7 +67,5 @@ window.addEventListener('load', function() {
         });
 
         redrawImages();
-
-        modelModule.storeImageCollectionModel(imageCollectionView.getImageCollectionModel());
     });
 });

@@ -22,6 +22,8 @@ function createViewModule() {
          * to display the ImageModel.
          */
         getElement: function() {
+            var _this = this;
+
             var templateDiv = document.createElement('div');
             if (this.viewType == GRID_VIEW) {
                 templateDiv.className = 'grid-image';
@@ -35,7 +37,11 @@ function createViewModule() {
 
             var date = this.imageModel.getModificationDate();
             template.querySelector('#img-date').innerText = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay();
-            template.querySelector('#img-rating').innerText = this.imageModel.getRating();
+            var ratingTemplate = template.querySelector('#rating');
+            ratingTemplate.value = this.imageModel.getRating();
+            ratingTemplate.addEventListener('input', function() {
+                _this.imageModel.setRating(parseInt(ratingTemplate.value));
+            });
 
             templateDiv.appendChild(template);
             return templateDiv;
@@ -128,12 +134,20 @@ function createViewModule() {
                 return -1;
             }
 
-            var _this = this;
-
             this.renders = [];
-            _.each(_this.imageCollectionModel.getImageModels(), function(imageModel) {
+
+            var _this = this;
+            _.each(this.imageCollectionModel.getImageModels(), function(imageModel) {
                 _this.renders.push(_this.imageRendererFactory.createImageRenderer(imageModel, _this.viewType));
             });
+        },
+
+        /**
+         * Filters renders by rating
+         */
+        filter: function(rating) {
+            this.render();
+            this.renders = _.filter(this.renders, function(obj) { return obj.imageModel.getRating() >= rating; });
         },
 
         /**
@@ -169,7 +183,6 @@ function createViewModule() {
          */
         setImageCollectionModel: function(imageCollectionModel) {
             var _this = this;
-
             if (this.imageCollectionModel !== null) {
                 this.imageCollectionModel.removeListener(function(eventType, imageCollectionModel, imageModel, eventTime) {
                     _this.render();
@@ -236,6 +249,12 @@ function createViewModule() {
             });
             listButton.addEventListener('click', function() {
                 _this.setToView(LIST_VIEW);
+            });
+
+            var ratingFilter = template.querySelector('#rating-filter');
+            ratingFilter.value = this.ratingFilter;
+            ratingFilter.addEventListener('input', function() {
+                _this.setRatingFilter(parseInt(ratingFilter.value));
             });
 
             return template;

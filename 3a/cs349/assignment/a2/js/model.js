@@ -76,8 +76,9 @@ function createModelModule() {
 
             this.caption = caption;
 
+            var _this = this;
             _.each(this.listeners, function(obj) {
-                obj(this, (new Date()).getTime());
+                obj(_this, (new Date()).getTime());
             });
             return this;
         },
@@ -101,8 +102,9 @@ function createModelModule() {
 
             this.rating = rating;
 
+            var _this = this;
             _.each(this.listeners, function(obj) {
-                obj(this, (new Date()).getTime());
+                obj(_this, (new Date()).getTime());
             });
             return this;
         },
@@ -159,15 +161,6 @@ function createModelModule() {
         },
 
         /**
-         * Prototype for an ImageModel listener.
-         */
-        imageModelListener: function(imageModel, eventTime) {
-            _.each(this.listeners, function(obj) {
-                obj(IMAGE_META_DATA_CHANGED_EVENT, this, imageModel, eventTime);
-            });
-        },
-
-        /**
          * Adds an ImageModel object to the collection. When adding an ImageModel, this object should
          * register as a listener for that object, and notify its own (i.e., the ImageCollectionModel's listeners)
          * when that ImageModel changes.
@@ -176,10 +169,15 @@ function createModelModule() {
         addImageModel: function(imageModel) {
             this.imageModels.push(imageModel);
 
-            imageModel.addListener(this.imageModelListener);
+            var _this = this;
+            imageModel.addListener(function(imageModelSub, eventTime) {
+                _.each(_this.listeners, function(obj) {
+                    obj(IMAGE_META_DATA_CHANGED_EVENT, _this, imageModel, eventTime);
+                });
+            });
 
             _.each(this.listeners, function(obj) {
-                obj(IMAGE_ADDED_TO_COLLECTION_EVENT, this, imageModel, (new Date()).getTime());
+                obj(IMAGE_ADDED_TO_COLLECTION_EVENT, _this, imageModel, (new Date()).getTime());
             });
             return this;
         },
@@ -192,15 +190,20 @@ function createModelModule() {
         removeImageModel: function(imageModel) {
             if (this.imageModels.indexOf(imageModel) === -1) { return -1; }
 
-            _.each(this.imageModels, function(obj) {
+            var _this = this;
+            _.each(_this.imageModels, function(obj) {
                 if (obj == imageModel) {
-                    obj.removeListener(this.imageModelListener);
+                    obj.removeListener(function(imageModelSub, eventTime) {
+                        _.each(_this.listeners, function(obj) {
+                            obj(IMAGE_META_DATA_CHANGED_EVENT, _this, imageModel, eventTime);
+                        });
+                    });
                 }
             });
             this.imageModels = _.filter(this.imageModels, function(obj) { return obj != imageModel; });
 
             _.each(this.listeners, function(obj) {
-                obj(IMAGE_REMOVED_FROM_COLLECTION_EVENT, this, imageModel, (new Date()).getTime());
+                obj(IMAGE_REMOVED_FROM_COLLECTION_EVENT, _this, imageModel, (new Date()).getTime());
             });
             return imageModel;
         },

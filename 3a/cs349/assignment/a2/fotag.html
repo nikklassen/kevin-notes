@@ -32,7 +32,9 @@
         <div id="grid-button">Grid</div>
         <div id="list-button">List</div>
     </div>
-    <div id="rating-header">0</div>
+    <div id="rating-header">
+        <input type="range" id="rating-filter" min="0" max="5" value="0">
+    </div>
 </template>
 
 <template id="file-chooser">
@@ -45,7 +47,9 @@
     <div id="meta-container">
         <div id="img-caption"></div>
         <div id="img-date"></div>
-        <div id="img-rating"></div>
+        <div id="img-rating">
+            <input type="range" id="rating" min="0" max="5" value="0">
+        </div>
     </div>
 </template>
 

@@ -21,6 +21,8 @@ header {
       background-color: #ddd; }
   header #rating-header {
     float: right; }
+    header #rating-header #rating-filter {
+      height: 50px; }
 
 #chooser-container {
   position: fixed;
