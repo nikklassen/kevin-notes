@@ -67,6 +67,14 @@ header {
     #app-container .list-image #meta-container {
       float: left;
       margin-left: 30px; }
+      @media screen and (max-width: 760px) {
+        #app-container .list-image #meta-container {
+          float: none;
+          margin-left: 0px; } }
+    @media screen and (max-width: 760px) {
+      #app-container .list-image {
+        font: 16px/24px serif;
+        margin-bottom: 50px; } }
   #app-container div img {
     -webkit-transition: height 1s ease-in-out, width 1s ease-in-out; }
   #app-container div img.expanded {

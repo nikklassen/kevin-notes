@@ -110,7 +110,17 @@ header {
 
         #meta-container {
             float: left;
-            margin-left:30px;
+            margin-left: 30px;
+
+            @media screen and (max-width: 760px) {
+                float: none;
+                margin-left: 0px;
+            }
+        }
+
+        @media screen and (max-width: 760px) {
+            font: 16px/24px serif;
+            margin-bottom: 50px;
         }
     }
 

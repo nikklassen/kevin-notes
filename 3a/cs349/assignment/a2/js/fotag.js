@@ -22,7 +22,7 @@ window.addEventListener('load', function() {
 
     // Image Collection View initialization
     var imageCollectionView = new viewModule.ImageCollectionView;
-    imageCollectionView.setToView(viewModule.GRID_VIEW);
+    imageCollectionView.setToView(toolbar.getCurrentView());
     imageCollectionView.setImageCollectionModel(modelModule.loadImageCollectionModel());
 
 
