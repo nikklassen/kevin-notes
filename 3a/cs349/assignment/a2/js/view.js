@@ -23,6 +23,11 @@ function createViewModule() {
          */
         getElement: function() {
             var templateDiv = document.createElement('div');
+            if (this.viewType == GRID_VIEW) {
+                templateDiv.className = 'grid-image';
+            } else if (this.viewType == LIST_VIEW) {
+                templateDiv.className = 'list-image';
+            }
 
             var template = document.getElementById('img-template').content.cloneNode(true);
             template.querySelector('img').src = this.imageModel.getPath();

@@ -23,6 +23,14 @@ window.addEventListener('load', function() {
     appContainer.appendChild(renderedView);
 
 
+    // Redraw Image Collection View
+    var redraw = function() {
+        appContainer.removeChild(appContainer.lastChild);
+        var renderedImage = imageCollectionView.getElement();
+        appContainer.appendChild(renderedImage);
+    }
+
+
     // New image listener
     fileChooser.addListener(function(fileChooser, files, eventDate) {
         _.each(files, function(file) {
@@ -30,10 +38,18 @@ window.addEventListener('load', function() {
             imageCollectionView.getImageCollectionModel().addImageModel(imageModel);
         });
 
-        appContainer.removeChild(appContainer.lastChild);
-        var renderedImage = imageCollectionView.getElement();
-        appContainer.appendChild(renderedImage);
+        redraw();
 
         // modelModule.storeImageCollectionModel(imageCollectionModel);
+    });
+
+
+    document.getElementById('grid-button').addEventListener('click', function() {
+        imageCollectionView.setToView(viewModule.GRID_VIEW);
+        redraw();
+    });
+    document.getElementById('list-button').addEventListener('click', function() {
+        imageCollectionView.setToView(viewModule.LIST_VIEW);
+        redraw();
     });
 });
