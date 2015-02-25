@@ -1,0 +1,1 @@
+from django.contrib.auth.models import User; User.objects.all().delete(); User.objects.create_superuser('root', 'root@localhost', 'password')

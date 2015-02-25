@@ -1,0 +1,6 @@
+.vagrant
+*~
+
+*.aux
+*.log
+*.pyc

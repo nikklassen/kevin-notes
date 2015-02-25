@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Investments Calculator</title>
+
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <![endif]-->
+  </head>
+  <body>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+    <div class="container">
+    <h1>Investments Calculator</h1>
+
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    
+    <form class="form-calculator" method="POST">
+      {% csrf_token %}
+      <label for="new_amount" class="sr-only">Additional amount to invest</label>
+      <input type="new_amount" name="new_amount" id="inputEmail" class="form-control" placeholder="Additional amount to invest" required autofocus>
+      <input class="btn btn-lg btn-primary btn-block" id="submit" type="submit" value="Calculate"/>
+    </form>
+
+    {% if raw_allocations %}
+    <h2>Raw Amounts: adding {{ new_amount }}, new total {{ total }}  </h2>
+    <table class="table">
+      <tr><th>Holding</th><th class="text-right">now</th><th class="text-right">ideal</th></tr>
+      {% for r in raw_allocations %}
+      <tr>
+        <td>{{ r.0 }}</td> <td class="text-right"> {{ r.1 }} </td> <td class="text-right"> {{ r.2 }} </td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+    {% if max_amounts %}
+    <h2>Account Maxima</h2>
+    <table class="table">
+      <tr><th>Account</th><th class="text-right">now</th><th class="text-right">max</th></tr>
+      {% for r in max_amounts.iteritems %}
+      <tr>
+        <td>{{r.0}}</td> <td class="text-right">{{r.1.0}}</td> <td class="text-right">{{r.1.1}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+    {% if current_holdings %}
+    <h2>Per-account Holdings</h2>
+    <table class="table">
+      <tr><th>Account</th><th class="text-right">now</th><th class="text-right">ideal</th></tr>
+      {% for a in current_holdings.iteritems %}
+      <tr>
+        <th>{{a.0}}</th><th></th><th></th>
+      </tr>
+      {% for h in a.1 %}
+      <tr>
+        <td>{{h.0.holding_type.name}}</td>
+        <td class="text-right">{{h.0.amount}}</td>
+        <td class="text-right">{{h.1}}</td>
+      </tr>
+      {% endfor %}
+      {% endfor %}
+    </table>
+    {% endif %}
+   </div>
+  </body>
+</html>

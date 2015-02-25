@@ -1,0 +1,13 @@
+digraph cfg {
+  margin="0 0 0 0";
+  rankdir="LR";
+  START->iEqualsZero->switch;
+  START->switch;
+  switch->argLenZero->switchEnd;
+  switch->argLenOne->switchEnd;
+  switch->argLenTwo->argLenElse;//->switchEnd;
+  switch->argLenElse->switchEnd;
+  switchEnd->argLenNonZeroAndAInit->nothing;
+  switchEnd->argLenNonZeroAndBInit->nothing;
+  switchEnd->argLenZero->nothing;
+}
