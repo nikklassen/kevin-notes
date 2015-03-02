@@ -1,0 +1,116 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb,bookmark,mathtools,parskip,verbatim,custom}
+\usepackage[margin=.8in]{geometry}
+\allowdisplaybreaks
+\setcounter{secnumdepth}{5}
+
+\begin{document}
+
+\title{CS 341 --- Assignment 3}
+\author{Kevin Carruthers (20463098) --- section 002}
+\date{\vspace{-2ex}Winter 2015}
+\maketitle\HRule
+
+\section*{Question 1}
+\subsubsection*{Part A}
+My code is as follows:
+\verbatiminput{dominance.cpp}
+
+\subsubsection*{Part B}
+I generated my input by generating $n$ points, for the below values of $n$, each with $x$- and $y$-values samples randomly from zero to $10,000$. The $x$-values were sorted before placing them in points. Each point was assigned a random color. The experimental results agree with the theoretical analysis: the runtime of the brute-force algorithm was always longer than the divide and conquer implementation and increased at a greater rate.
+\input{timingTable}
+
+\section*{Question 2}
+\subsubsection*{Part A}
+\begin{verbatim}
+1. def placeMailboxes(houses[0..n-1], D):
+       // sort list of houses
+2.     sort(houses)
+
+       // initialize our mailbox list with a mailbox at -infinity for code cleanliness, remove it later
+3.     mailboxes = [-infinity]
+       // for each house
+4.     for i = 0 to n - 1:
+           // if the house is farther than D distance from the last mailbox
+5.         if house[i] > mailboxes[-1] + D:
+           // add a new mailbox D distance ahead of the house
+6.             mailboxes.append(house[i] + D)
+
+       // remove the mailbox at -infinity, return the rest
+7.     return mailboxes[1:]
+\end{verbatim}
+
+We can determine the complexity of this algorithm as
+\begin{align*}
+T(n) &= O(n\log n) + O(1) + O(n)O(1) \\
+&= O(n\log n) + O(1) + O(n) \\
+&= O(n\log n)
+\end{align*}
+
+The complexity of this algorithm is thus $O(n\log n)$.
+
+\subsubsection*{Part B}
+If my algorithm is not correct, it must be the case that either: a) there exists some optimal solution with fewer mailboxes, or b) my solution does not cover a house in our list. We can determine that my algorithm covers each house by reading the psuedo-code: if a house is ever uncovered by a mailbox, we immediately add a mailbox within range of the house.
+
+To prove this algorithm is optimal, it suffices to prove that no house is covered by two mailboxes, as if this were the case we would simply remove one of those mailboxes to have a more optimal solution. We can prove this by, again, reading the psuedo-code: if a house is ever covered by a mailbox, we do not add another mailbox within range. Since the algorithm is greedy, we never ``go back'' and add to the list of mailboxes at some point in the ditance; thus it must be the case case that if a mailbox is added only to the end of the list, and if this occurs only when it would not overlap with other mailboxes, we must have a optimal solution. Since this is the case (ie. we add a mailbox only on line 6 and only when it would not overlap due to line 5), we must have an optimal solution.
+
+Since this algorithm is both optimal and does not miss any houses, it must be correct.
+
+\subsubsection*{Part C}
+We call my algorithm with \code{houses = [1, 2, 4, −1, −2, −5, 11, 5, 8, −8, −10, 14, 12, 19, 16], D = 3}. The algorithm first sorts \code{houses} which changes it to \code{[−10, −8, −5, −2, −1, 1, 2, 4, 5, 8, 11, 12, 14, 16, 19]}. The algorithm then iterates as folows:
+\begin{enumerate}
+\item Checks if \code{house[0] = -10} is greater than \code{-infinity + D}. Since this is the case ($-10 > -\infty + 3$), it places a mailbox at $-10 + 3 = -7$.
+\item Checks if \code{house[1] = -8} is greater than \code{-7 + D}. It is not, so execution continues.
+\item Checks if \code{house[2] = -5} is greater than \code{-7 + D}. Since this is the case ($-5 > -7 + 3$), it places a mailbox at $-5 + 3 = -2$.
+\item Checks if \code{house[3] = -2} is greater than \code{-2 + D}. It is not, so execution continues.
+\item Checks if \code{house[4] = -1} is greater than \code{-2 + D}. It is not, so execution continues.
+\item Checks if \code{house[5] = 1} is greater than \code{-2 + D}. It is not, so execution continues.
+\item Checks if \code{house[6] = 2} is greater than \code{-2 + D}. Since this is the case ($2 > -2 + 3$), it places a mailbox at $2 + 3 = 5$.
+\item Checks if \code{house[7] = 4} is greater than \code{5 + D}. It is not, so execution continues.
+\item Checks if \code{house[8] = 5} is greater than \code{5 + D}. It is not, so execution continues.
+\item Checks if \code{house[9] = 8} is greater than \code{5 + D}. It is not, so execution continues.
+\item Checks if \code{house[10] = 11} is greater than \code{5 + D}. Since this is the case ($11 > 5 + 3$), it places a mailbox at $11 + 3 = 14$.
+\item Checks if \code{house[11] = 12} is greater than \code{14 + D}. It is not, so execution continues.
+\item Checks if \code{house[12] = 14} is greater than \code{14 + D}. It is not, so execution continues.
+\item Checks if \code{house[13] = 16} is greater than \code{14 + D}. It is not, so execution continues.
+\item Checks if \code{house[14] = 19} is greater than \code{14 + D}. Since this is the case ($19 > 14 + 3$), it places a mailbox at $19 + 3 = 22$.
+\end{enumerate}
+The function will then return a list of the following mailboxes: $[-7, -2, 5, 14, 22]$.
+
+\section*{Question 3}
+\subsubsection*{Part A}
+We know that
+\begin{align*}
+T_i &= T_{i-1} - x_i d_i \\
+&= T_{i-1} - \lfloor \frac{T_{i-1}}{d_{i-1}} \rfloor d_{i-1} \\
+&\leq T_{i-1} - \bigg( \frac{T_{i-1}}{d_{i-1}} - 1 \bigg) d_{i-1} \\
+&\leq T_{i-1} - T_{i-1} + d_{i-1} \\
+&\leq d_{i-1}
+\end{align*}
+and since we have \[ x_i = \lfloor \bigg( \frac{T_i}{d_i} \bigg) \rfloor \] we see that
+\begin{align*}
+x_i &= \lfloor \bigg( \frac{T_i}{d_i} \bigg) \rfloor \\
+&\leq \lfloor \bigg( \frac{d_{i-1}}{d_i} \bigg) \rfloor \\
+&\leq \frac{d_{i-1}}{d_i} - 1
+\end{align*}
+which gives us \[ 0 \leq x_i \leq \frac{d_{i-1}}{d_i} - 1 \]
+
+\subsubsection*{Part B}
+Given \[ 0 \leq x^*_i \leq \frac{d_{i-1}}{d_i} - 1 \] we can say that since $d_{j-1}$ is divisible by $d_j$ for all $j$ we have
+\begin{align*}
+0 &\leq x^*_i \leq \frac{ad_i}{d_i} - 1 \\
+&\leq x^*_i \leq a - 1 \\
+&\leq x^*_i < a
+\end{align*}
+If $x^*_i$ were larger than $a$, we could simply take $a$ fewer coins of denomination $d_{i-1}$ and $1$ more of $d_i$ recursivly until $x^*_i$ is smaller than $a$. Since this is a clear optimization, but our solution was already optimal, it must be the case that $x^*_i < a$. Thus we see that our inequality is correct and so \[ 0 \leq x^*_i \leq \frac{d_{i-1}}{d_i} - 1 \]
+
+\subsubsection*{Part C}
+Assume $X$ and $X^*$ are valid solutions and $X \neq X^*$. Since $i$ is the highest index where $x_i$ and $x^*_i$ differ, it must be the case that the values are the same for all $i < j \leq n$. Thus we must have the same value for $T = \displaystyle\sum_{j=i+1}^n x_j d_j$. We also know, by parts (a) and (b), that the maximum amount $x_i$ and $x^*_i$ differ by must be less than $d_{j-1}$ (since both are bounded by $0$ and $d_{j-1} - 1$, the most they could differ would occur when one is $0$ and the other is $d_{j-1} - 1$, ie. a difference of $d_{j-1} - 1$ which is less than $d_{j-1}$). Since this difference is less than $d_{j-1}$, it must be impossible to add some extra number of coins of value $d_{j-1}$ to the lower value between $x_i$ and $x^*_i$ such that $T + x_i d_i = T + x^*_i d_i$. Since all coin denominations at indices below $j-1$ are of a greater value than $d_{j-1}$, this must hold true for them, as well. Thus, we cannot get the correct $T$ value for both $X$ and $X^*$ which is a contradiction (ie. one of them must not be a valid solution). Thus $X$ must equal $X^*$.
+
+\section*{Question 4}
+% TODO: pairwise disjoint intervals
+\subsubsection*{Part A}
+\subsubsection*{Part B}
+\subsubsection*{Part C}
+
+\end{document}
