@@ -57,25 +57,25 @@ To prove this algorithm is optimal, it suffices to prove that no house is covere
 Since this algorithm is both optimal and does not miss any houses, it must be correct.
 
 \subsubsection*{Part C}
-We call my algorithm with \code{houses = [1, 2, 4, −1, −2, −5, 11, 5, 8, −8, −10, 14, 12, 19, 16], D = 3}. The algorithm first sorts \code{houses} which changes it to \code{[−10, −8, −5, −2, −1, 1, 2, 4, 5, 8, 11, 12, 14, 16, 19]}. The algorithm then iterates as folows:
+We call my algorithm with \code{houses = [1, 2, 4, -1, -2, -5, 11, 5, 8, -8, -10, 14, 12, 19, 16], D = 3}. The algorithm first sorts \code{houses} which changes it to \code{[-10, -8, -5, -2, -1, 1, 2, 4, 5, 8, 11, 12, 14, 16, 19]}. The algorithm then iterates as folows:
 \begin{enumerate}
 \item Checks if \code{house[0] = -10} is greater than \code{-infinity + D}. Since this is the case ($-10 > -\infty + 3$), it places a mailbox at $-10 + 3 = -7$.
 \item Checks if \code{house[1] = -8} is greater than \code{-7 + D}. It is not, so execution continues.
-\item Checks if \code{house[2] = -5} is greater than \code{-7 + D}. Since this is the case ($-5 > -7 + 3$), it places a mailbox at $-5 + 3 = -2$.
-\item Checks if \code{house[3] = -2} is greater than \code{-2 + D}. It is not, so execution continues.
-\item Checks if \code{house[4] = -1} is greater than \code{-2 + D}. It is not, so execution continues.
-\item Checks if \code{house[5] = 1} is greater than \code{-2 + D}. It is not, so execution continues.
-\item Checks if \code{house[6] = 2} is greater than \code{-2 + D}. Since this is the case ($2 > -2 + 3$), it places a mailbox at $2 + 3 = 5$.
-\item Checks if \code{house[7] = 4} is greater than \code{5 + D}. It is not, so execution continues.
-\item Checks if \code{house[8] = 5} is greater than \code{5 + D}. It is not, so execution continues.
-\item Checks if \code{house[9] = 8} is greater than \code{5 + D}. It is not, so execution continues.
-\item Checks if \code{house[10] = 11} is greater than \code{5 + D}. Since this is the case ($11 > 5 + 3$), it places a mailbox at $11 + 3 = 14$.
-\item Checks if \code{house[11] = 12} is greater than \code{14 + D}. It is not, so execution continues.
-\item Checks if \code{house[12] = 14} is greater than \code{14 + D}. It is not, so execution continues.
-\item Checks if \code{house[13] = 16} is greater than \code{14 + D}. It is not, so execution continues.
-\item Checks if \code{house[14] = 19} is greater than \code{14 + D}. Since this is the case ($19 > 14 + 3$), it places a mailbox at $19 + 3 = 22$.
+\item Checks if \code{house[2] = -5} is greater than \code{-7 + D}. It is not, so execution continues.
+\item Checks if \code{house[3] = -2} is greater than \code{-7 + D}. Since this is the case ($-2 > -7 + 3$), it places a mailbox at $-2 + 3 = 1$.
+\item Checks if \code{house[4] = -1} is greater than \code{1 + D}. It is not, so execution continues.
+\item Checks if \code{house[5] = 1} is greater than \code{1 + D}. It is not, so execution continues.
+\item Checks if \code{house[6] = 2} is greater than \code{1 + D}. It is not, so execution continues.
+\item Checks if \code{house[7] = 4} is greater than \code{1 + D}. It is not, so execution continues.
+\item Checks if \code{house[8] = 5} is greater than \code{5 + D}. Since this is the case ($5 > 1 + 3$), it places a mailbox at $5 + 3 = 8$.
+\item Checks if \code{house[9] = 8} is greater than \code{8 + D}. It is not, so execution continues.
+\item Checks if \code{house[10] = 11} is greater than \code{8 + D}. It is not, so execution continues.
+\item Checks if \code{house[11] = 12} is greater than \code{8 + D}. Since this is the case ($12 > 8 + 3$), it places a mailbox at $12 + 3 = 15$.
+\item Checks if \code{house[12] = 14} is greater than \code{15 + D}. It is not, so execution continues.
+\item Checks if \code{house[13] = 16} is greater than \code{15 + D}. It is not, so execution continues.
+\item Checks if \code{house[14] = 19} is greater than \code{15 + D}. Since this is the case ($19 > 14 + 3$), it places a mailbox at $19 + 3 = 22$.
 \end{enumerate}
-The function will then return a list of the following mailboxes: $[-7, -2, 5, 14, 22]$.
+The function will then return a list of the following mailboxes: $[-7, 1, 8, 15, 22]$.
 
 \section*{Question 3}
 \subsubsection*{Part A}
@@ -108,9 +108,36 @@ If $x^*_i$ were larger than $a$, we could simply take $a$ fewer coins of denomin
 Assume $X$ and $X^*$ are valid solutions and $X \neq X^*$. Since $i$ is the highest index where $x_i$ and $x^*_i$ differ, it must be the case that the values are the same for all $i < j \leq n$. Thus we must have the same value for $T = \displaystyle\sum_{j=i+1}^n x_j d_j$. We also know, by parts (a) and (b), that the maximum amount $x_i$ and $x^*_i$ differ by must be less than $d_{j-1}$ (since both are bounded by $0$ and $d_{j-1} - 1$, the most they could differ would occur when one is $0$ and the other is $d_{j-1} - 1$, ie. a difference of $d_{j-1} - 1$ which is less than $d_{j-1}$). Since this difference is less than $d_{j-1}$, it must be impossible to add some extra number of coins of value $d_{j-1}$ to the lower value between $x_i$ and $x^*_i$ such that $T + x_i d_i = T + x^*_i d_i$. Since all coin denominations at indices below $j-1$ are of a greater value than $d_{j-1}$, this must hold true for them, as well. Thus, we cannot get the correct $T$ value for both $X$ and $X^*$ which is a contradiction (ie. one of them must not be a valid solution). Thus $X$ must equal $X^*$.
 
 \section*{Question 4}
-% TODO: pairwise disjoint intervals
 \subsubsection*{Part A}
+We can use divide and conquer: by splitting our array into two at each level of recursion, we can have $\log n$ iterations. If, at the bottom level, we return the item if it is less than $s_j$ and merge by simply taking the larger item returned by our recursive calls ($n$ operations), we will have an overal complexity of $O(n\log n)$.
+
 \subsubsection*{Part B}
+To solve for $P(j)$, we see that we have two options: either $p_j$ is a part of the solution and we can recursively add the profits of all segments which do not overlap with $I_j$ (ie. $P\bigl(last(j)\bigl)$), or $p_j$ is not part of the solution and the solution is simply $P(j-1)$. We can determine which of these is the case by taking the max of both options. Thus we have \[ P(j) =
+\begin{dcases*}
+0 & if $j == 0$ \\
+\max\bigg(p_j + P\bigl(last(j)\bigl), P\bigl(j-1\bigl)\bigg) & otherwise
+\end{dcases*}\]
+
 \subsubsection*{Part C}
+\begin{table}[ht]
+\centering
+  \begin{tabular}{l|llll}
+  $j$ & $I_j$      & $p_j$ & $last(j)$ & $P(j)$                  \\ \hline
+  1   & $[2, 3)$   & 2     & 0         & $\max(2 + 0, 0) = 2$    \\
+  2   & $[2, 4)$   & 3     & 0         & $\max(3 + 0, 2) = 3$    \\
+  3   & $[1, 6)$   & 5     & 0         & $\max(5 + 0, 3) = 5$    \\
+  4   & $[3, 9)$   & 4     & 1         & $\max(4 + 2, 5) = 6$    \\
+  5   & $[4, 9)$   & 4     & 2         & $\max(4 + 3, 6) = 7$    \\
+  6   & $[6, 11)$  & 1     & 3         & $\max(1 + 5, 7) = 7$    \\
+  7   & $[5, 12)$  & 3     & 2         & $\max(3 + 3, 7) = 7$    \\
+  8   & $[12, 13)$ & 1     & 7         & $\max(1 + 7, 7) = 8$    \\
+  9   & $[9, 14)$  & 3     & 5         & $\max(3 + 7, 8) = 10$   \\
+  10  & $[11, 15)$ & 2     & 6         & $\max(2 + 7, 10) = 10$  \\
+  11  & $[14, 16)$ & 2     & 9         & $\max(2 + 10, 10) = 12$ \\
+  12  & $[13, 18)$ & 4     & 8         & $\max(4 + 8, 12) = 12$  \\
+  \end{tabular}
+\end{table}
+
+Thus the set of intervals which provides the best solution is $(I_2, I_5, I_8, I_{12})$.
 
 \end{document}
