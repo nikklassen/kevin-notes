@@ -1,0 +1,33 @@
+digraph cfg {
+  margin="0 0 0 0";
+  rankdir="LR";
+
+  forCondition [label="1: !it.isDone()"];
+  outerIf [label="2: if (it.currentSegment(..."];
+  innerIf [label="3: if (removeAlignedPoints && ..."];
+  replacePoint [label="4: replacePoint = Line2D..."];
+  secondIf [label="5: if (replacePoint)"];
+  pathSet [label="6: pathPoints.set(..."];
+  pathAdd [label="7: pathPoints.add(..."];
+  forRecursion [label="8: it.next()"];
+  lastIf [label="9: if (pathPoints.size()..."];
+  pathRemove [label="10: pathPoints.remove(..."];
+  return [label="11: return pathPoints.toArray(..."];
+
+  forCondition->outerIf;
+  outerIf->innerIf;
+  innerIf->replacePoint;
+  replacePoint->secondIf;
+  innerIf->secondIf;
+  secondIf->pathSet;
+  secondIf->pathAdd;
+  pathSet->forRecursion;
+  pathAdd->forRecursion;
+  outerIf->forRecursion;
+  forRecursion->forCondition;
+
+  forCondition->lastIf;
+  lastIf->pathRemove;
+  pathRemove->return;
+  lastIf->return;
+}
