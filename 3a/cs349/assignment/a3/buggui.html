@@ -1,40 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
-    <meta charset="UTF-8">
-    <title>Biggui!</title>
+<meta charset="UTF-8">
+<title>Biggui!</title>
 
-    <!--
-    All of your CSS must go in css/buggui.css. Do not add styles to individual elements.
-    All of your CSS must be your own -- you may not use third-party CSS, like Bootstrap.
-    -->
-    <link rel="stylesheet" href="css/buggui.css"/>
-    <style>
-        .marking-button {
-            float:right;
-        }
-        .marking-div-clear {
-            clear:both;
-        }
-    </style>
+<link rel="stylesheet" href="css/buggui.css"/>
+<style>
+    .marking-button {
+        float:right;
+    }
+    .marking-div-clear {
+        clear:both;
+    }
+</style>
 </head>
 <body>
 
-<!-- This header can be replaced -->
 <h1>Biggui!</h1>
 Drive in style!
 
 <div id="app-container">
-    <!--
-         An attachment point to place all of your dynamically created content. Do not remove or
-         rename this div.
-    -->
+    <canvas id='car_canvas'></canvas>
 </div>
 
-<!-- Ensure this is in your document so TAs can run unit tests -->
 <div id="unit-tests">
-
-    <!-- This button is for marking purposes to test your architecture. Do not remove it-->
     <button class="marking-button">Mark Me!</button>
     <div class="marking-div-clear"></div>
 
