@@ -4,7 +4,6 @@ all: a3.pdf
 dominanceCount: dominanceCount.cpp dominanceRunner.cpp
 	${CXX} -std=c++11 -g -Wall $^ -o $@
 
-
 dominanceCountNaive: dominanceCountNaive.cpp dominanceRunner.cpp
 	${CXX} -std=c++11 -g -Wall $^ -o $@
 
