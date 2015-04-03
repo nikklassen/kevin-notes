@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel='stylesheet' href='/static/css/ext/bootstrap.css' />
+  <link rel='stylesheet' type='text/css' href='/static/css/wassup.css' />
+</head>
+
+<body>
+  <div class='container-fluid'>
+    <div class='row'>
+      <div class='col-xs-5'>
+        <img class='logo' src='/static/img/wassup_logo.png' />
+      </div>
+      <div class='col-xs-7'></div>
+    </div>
+
+    <form method='POST' action='/logged_in' enctype='multipart/form-data'>
+      <div class='row top-buffer'>
+          <div class='col-xs-6 col-sm-4'>
+            Username:
+            <input id='user_id' type='text' name='user_id' class='form-control' />
+          </div>
+          <div class='col-xs-6 col-sm-4'>
+            Full Name:
+            <input id='full_name' type='text' name='full_name' class='form-control' />
+          </div>
+      </div>
+
+      <div class='row top-buffer'>
+        <div class='col-xs-4 col-sm-2'></div>
+        <div class='col-xs-4'>
+          <input id='login_button' type='submit' value='login' class='btn' />
+        </div>
+        <div class='col-xs-4 col-sm-2'></div>
+      </div>
+    </form>
+
+  %if error_message:
+    <div class='row'>
+      <div class='col-xs-12'>
+        <p>
+          <em>{{error_message}}</em>
+        </p>
+      </div>
+    </div>
+  %end
+
+  <script src='static/js/ext/underscore.js'></script>
+  <script type='text/javascript' src='/static/js/wassup.js'></script>
+</body>
+</html>

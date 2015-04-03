@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel='stylesheet' href='/static/css/ext/bootstrap.css' />
+  <link rel='stylesheet' href='/static/css/wassup.css' />
+</head>
+
+<body>
+  <div class='container-fluid'>
+    <div class='row'>
+      <div class='col-xs-5 fixed-size vertical-align'>
+        <img class='logo' src='/static/img/wassup_logo.png' />
+      </div>
+      <div class='col-xs-2 hidden-sm hidden-md hidden-lg'></div>
+      <div class='col-xs-3 col-sm-1 fixed-size vertical-align'>
+        <img id='loading_spinner' src='/static/img/spinner.gif' />
+      </div>
+      <div class='col-xs-2 hidden-sm hidden-md hidden-lg'></div>
+      <div class='col-xs-12 col-sm-4 col-sm-offset-2 fixed-size vertical-align'>
+        <div class='btn-group' data-toggle='buttons-radio'>
+          <input id='private_button' type='button' value='private' class='btn' />
+          <input id='public_button' type='button' value='public' class='btn' />
+        </div>
+        <form method='POST' action='/logout'>
+          <input type='submit' value='logout' class='btn btn-danger' />
+        </form>
+      </div>
+    </div>
+
+    <div class='row'>
+      <div id='friend_list' class='col-xs-12 col-sm-4'>
+        <div class='row top-buffer-large hidden-xs'>
+          <div class='col-xs-7 col-md-8'>
+            <input id='add_friend_id' type='text' class='form-control' />
+          </div>
+          <div class='col-xs-5 col-md-4'>
+            <button id='add_friend_button' type='button' class='btn'>+</button>
+            <button id='remove_friend_button' type='button' class='btn'>-</button>
+          </div>
+        </div>
+
+        <div class='row top-buffer fixed-size vertical-align'>
+          <div class='col-xs-4 hidden-sm hidden-md hidden-lg'>
+            You got <span class='sup_count'>0</span> Sups
+          </div>
+          <div class='col-xs-5 hidden-sm hidden-md hidden-lg'>
+            <select class='friend_list_selector form-control'></select>
+          </div>
+          <div class='col-sm-8 hidden-xs'>
+            <select class='friend_list_selector form-control' multiple></select>
+          </div>
+
+          <div class='col-xs-2 col-sm-4'>
+            <button id='send_button' type='button' class='btn'>Send</button>
+          </div>
+        </div>
+      </div>
+
+      <div id='canvas_div' class='col-xs-6'>
+        <div class='row hidden-xs'>
+          <div class='col-sm-12'>
+            You got <span class='sup_count'>0</span> Sups
+          </div>
+        </div>
+
+        <div class='row'>
+          <div class='col-xs-12'>
+            <canvas id='sup_canvas'></canvas>
+          </div>
+        </div>
+
+        <div class='row'>
+          <div class='col-xs-12'>
+            <button id='nav_prev' type='button' class='btn pull-left'>
+              <img src='/static/img/arrow_left.png' class='img-responsive' />
+            </button>
+            <button id='nav_next' type='button' class='btn pull-right'>
+              <img src='/static/img/arrow_right.png' class='img-responsive' />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id='message_div' class='vertical-align fixed-size'>
+    <div class='col-xs-1'></div>
+    <div class='col-xs-10'>
+      <p id='message'></p>
+    </div>
+    <div class='col-xs-1'></div>
+  </div>
+
+  <script src='/static/js/ext/underscore.js'></script>
+  <script src='/static/js/wassup.js'></script>
+</body>
+</html>
